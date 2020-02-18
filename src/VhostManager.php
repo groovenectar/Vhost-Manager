@@ -49,7 +49,11 @@ class VhostManager
             throw new \Exception("The domain {$domain} is already exists, please try different");
         }
 
-        $documentRoot = str_replace("\\", "/", trim($static->config['workspace_path'], '/')) . '/'. $documentRoot;
+        if (!empty($static->config['workspace_path'])) {
+            $documentRoot = trim($static->config['workspace_path'], '/') . '/'. $documentRoot;
+        }
+
+        $documentRoot = str_replace("\\", "/", $documentRoot);
 
         if ($static->filesystem->exists($documentRoot)) {
             $apacheHostEdited = $static->appendFileContent(
